@@ -41,38 +41,32 @@ limitations under the License.
 
 <!-- /.intro -->
 
+<section class="installation">
 
+## Installation
+
+```bash
+npm install @stdlib/stats-base-dmaxabs
+```
+
+Alternatively,
+
+-   To load the package in a website via a `script` tag without installation and bundlers, use the [ES Module][es-module] available on the [`esm`][esm-url] branch (see [README][esm-readme]).
+-   If you are using Deno, visit the [`deno`][deno-url] branch (see [README][deno-readme] for usage intructions).
+-   For use in Observable, or in browser/node environments, use the [Universal Module Definition (UMD)][umd] build available on the [`umd`][umd-url] branch (see [README][umd-readme]).
+
+The [branches.md][branches-url] file summarizes the available branches and displays a diagram illustrating their relationships.
+
+To view installation and usage instructions specific to each branch build, be sure to explicitly navigate to the respective README files on each branch, as linked to above.
+
+</section>
 
 <section class="usage">
 
 ## Usage
 
-To use in Observable,
-
 ```javascript
-dmaxabs = require( 'https://cdn.jsdelivr.net/gh/stdlib-js/stats-base-dmaxabs@umd/browser.js' )
-```
-
-To vendor stdlib functionality and avoid installing dependency trees for Node.js, you can use the UMD server build:
-
-```javascript
-var dmaxabs = require( 'path/to/vendor/umd/stats-base-dmaxabs/index.js' )
-```
-
-To include the bundle in a webpage,
-
-```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/stats-base-dmaxabs@umd/browser.js"></script>
-```
-
-If no recognized module system is present, access bundle contents via the global scope:
-
-```html
-<script type="text/javascript">
-(function () {
-    window.dmaxabs;
-})();
-</script>
+var dmaxabs = require( '@stdlib/stats-base-dmaxabs' );
 ```
 
 #### dmaxabs( N, x, strideX )
@@ -170,15 +164,10 @@ var v = dmaxabs.ndarray( 4, x, 2, 1 );
 
 <!-- eslint no-undef: "error" -->
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<body>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/random-array-discrete-uniform@umd/browser.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/array-float64@umd/browser.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/stats-base-dmaxabs@umd/browser.js"></script>
-<script type="text/javascript">
-(function () {
+```javascript
+var discreteUniform = require( '@stdlib/random-array-discrete-uniform' );
+var Float64Array = require( '@stdlib/array-float64' );
+var dmaxabs = require( '@stdlib/stats-base-dmaxabs' );
 
 var x = discreteUniform( 10, -50, 50, {
     'dtype': 'float64'
@@ -187,11 +176,6 @@ console.log( x );
 
 var v = dmaxabs( x.length, x, 1 );
 console.log( v );
-
-})();
-</script>
-</body>
-</html>
 ```
 
 </section>
@@ -200,7 +184,120 @@ console.log( v );
 
 <!-- C interface documentation. -->
 
+* * *
 
+<section class="c">
+
+## C APIs
+
+<!-- Section to include introductory text. Make sure to keep an empty line after the intro `section` element and another before the `/section` close. -->
+
+<section class="intro">
+
+</section>
+
+<!-- /.intro -->
+
+<!-- C usage documentation. -->
+
+<section class="usage">
+
+### Usage
+
+```c
+#include "stdlib/stats/base/dmaxabs.h"
+```
+
+#### stdlib_strided_dmaxabs( N, \*X, strideX )
+
+Computes the maximum absolute value of a double-precision floating-point strided array.
+
+```c
+const double x[] = { 1.0, -2.0, -3.0, 4.0, -5.0, -6.0, 7.0, 8.0 };
+
+double v = stdlib_strided_dmaxabs( 4, x, 2 );
+// returns 7.0
+```
+
+The function accepts the following arguments:
+
+-   **N**: `[in] CBLAS_INT` number of indexed elements.
+-   **X**: `[in] double*` input array.
+-   **strideX**: `[in] CBLAS_INT` stride length for `X`.
+
+```c
+double stdlib_strided_dmaxabs( const CBLAS_INT N, const double *X, const CBLAS_INT strideX );
+```
+
+#### stdlib_strided_dmaxabs_ndarray( N, \*X, strideX, offsetX )
+
+Computes the maximum absolute value of a double-precision floating-point strided array using alternative indexing semantics.
+
+```c
+const double x[] = { 1.0, -2.0, -3.0, 4.0, -5.0, -6.0, 7.0, 8.0 };
+
+double v = stdlib_strided_dmaxabs_ndarray( 4, x, 2, 0 );
+// returns 7.0
+```
+
+The function accepts the following arguments:
+
+-   **N**: `[in] CBLAS_INT` number of indexed elements.
+-   **X**: `[in] double*` input array.
+-   **strideX**: `[in] CBLAS_INT` stride length for `X`.
+-   **offsetX**: `[in] CBLAS_INT` starting index for `X`.
+
+```c
+double stdlib_strided_dmaxabs_ndarray( const CBLAS_INT N, const double *X, const CBLAS_INT strideX, const CBLAS_INT offsetX );
+```
+
+</section>
+
+<!-- /.usage -->
+
+<!-- C API usage notes. Make sure to keep an empty line after the `section` element and another before the `/section` close. -->
+
+<section class="notes">
+
+</section>
+
+<!-- /.notes -->
+
+<!-- C API usage examples. -->
+
+<section class="examples">
+
+### Examples
+
+```c
+#include "stdlib/stats/base/dmaxabs.h"
+#include <stdio.h>
+
+int main( void ) {
+    // Create a strided array:
+    const double x[] = { 1.0, -2.0, -3.0, 4.0, -5.0, -6.0, 7.0, 8.0 };
+
+    // Specify the number of elements:
+    const int N = 4;
+
+    // Specify the stride length:
+    const int strideX = 2;
+
+    // Compute the maximum value:
+    double v = stdlib_strided_dmaxabs( N, x, strideX );
+
+    // Print the result:
+    printf( "maxabs: %lf\n", v );
+}
+```
+
+</section>
+
+<!-- /.examples -->
+
+</section>
+
+<!-- /.c -->
 
 <!-- Section for related `stdlib` packages. Do not manually edit this section, as it is automatically populated. -->
 
@@ -246,7 +343,7 @@ See [LICENSE][stdlib-license].
 
 ## Copyright
 
-Copyright &copy; 2016-2024. The Stdlib [Authors][stdlib-authors].
+Copyright &copy; 2016-2025. The Stdlib [Authors][stdlib-authors].
 
 </section>
 
@@ -292,21 +389,21 @@ Copyright &copy; 2016-2024. The Stdlib [Authors][stdlib-authors].
 
 [stdlib-license]: https://raw.githubusercontent.com/stdlib-js/stats-base-dmaxabs/main/LICENSE
 
-[@stdlib/array/float64]: https://github.com/stdlib-js/array-float64/tree/umd
+[@stdlib/array/float64]: https://github.com/stdlib-js/array-float64
 
 [mdn-typed-array]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray
 
 <!-- <related-links> -->
 
-[@stdlib/stats/base/dmax]: https://github.com/stdlib-js/stats-base-dmax/tree/umd
+[@stdlib/stats/base/dmax]: https://github.com/stdlib-js/stats-base-dmax
 
-[@stdlib/stats/base/dminabs]: https://github.com/stdlib-js/stats-base-dminabs/tree/umd
+[@stdlib/stats/base/dminabs]: https://github.com/stdlib-js/stats-base-dminabs
 
-[@stdlib/stats/base/dnanmaxabs]: https://github.com/stdlib-js/stats-base-dnanmaxabs/tree/umd
+[@stdlib/stats/base/dnanmaxabs]: https://github.com/stdlib-js/stats-base-dnanmaxabs
 
-[@stdlib/stats/base/maxabs]: https://github.com/stdlib-js/stats-base-maxabs/tree/umd
+[@stdlib/stats/base/maxabs]: https://github.com/stdlib-js/stats-base-maxabs
 
-[@stdlib/stats/base/smaxabs]: https://github.com/stdlib-js/stats-base-smaxabs/tree/umd
+[@stdlib/stats/base/smaxabs]: https://github.com/stdlib-js/stats-base-smaxabs
 
 <!-- </related-links> -->
 
